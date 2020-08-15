@@ -18,5 +18,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('/me', 'AuthController@me');
+
 
