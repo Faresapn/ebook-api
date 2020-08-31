@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-class BookController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,16 +13,16 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = DB::table('books') -> get();
-        if($books && $books -> count() > 0)
+        $author = DB::table('authors') -> get();
+        if($author && $author -> count() > 0)
         {
             return response()->json([
                 'status' => true,
                 'code' => 200,
-                'data' => $books,
+                'data' => $author,
             ], 200);
         }
-        return response($books);
+        return response($author);
     }
 
     /**
@@ -32,8 +32,7 @@ class BookController extends Controller
      */
     public function create()
     {
-  
-      
+        //
     }
 
     /**
@@ -46,25 +45,27 @@ class BookController extends Controller
     {
         try{
           
-            $title = $request->input('title');
-            $description = $request->input('description');
-            $author = $request->input('author');
-            $publisher = $request->input('publisher');
-            $dates = $request->input('date_of_issue');
+            $name = $request->input('name');
+            $dateBirth  = $request->input('date_of_birth');
+            $placeBirth = $request->input('place_of_birth');
+            $gender     = $request->input('gender');
+            $email      = $request->input('email');
+            $hp         = $request->input('hp');
  
  
-            $data = new \App\Book();
-            $data->title = $title;
-            $data->description = $description;
-            $data->author = $author;
-            $data->publisher = $publisher;
-            $data->date_of_issue = $dates;
+            $data = new \App\Author();
+            $data->name = $name;
+            $data->date_of_birth = $dateBirth;
+            $data->place_of_birth = $placeBirth;
+            $data->gender = $gender;
+            $data->email = $email;
+            $data->hp = $hp;
      
             if($data->save()){
                 return response()->json([
                     'status' => true,
                     'code' => 200,
-                    'message' => 'Berhasil Menambah Buku',
+                    'message' => 'Berhasil Menambah Author',
                     'data' => $data,
                 ], 200);
             }
@@ -109,59 +110,30 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-    
-            try{
-          
-                $title = $request->input('title');
-                $description = $request->input('description');
-                $author = $request->input('author');
-                $publisher = $request->input('publisher');
-                $dates = $request->input('date_of_issue');
-     
-     
-                $data = \App\Book::where('id',$id)->first();
-                $data->title = $title;
-                $data->description = $description;
-                $data->author = $author;
-                $data->publisher = $publisher;
-                $data->date_of_issue = $dates;
-         
-                if($data->save()){
-                    return response()->json([
-                        'status' => true,
-                        'code' => 200,
-                        'message' => 'Berhasil Update Buku',
-                        'data' => $data,
-                    ], 200);
-                }
-            }catch (\Exception $e) {
-                DB::rollBack();
-                return response()->json([
-                    'status' => false,
-                    'code' => 200,
-                    'message' => $e->getMessage()
-                ], 200);
-            }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    
         try{
-            $data = \App\Book::where('id',$id)->first();
-            if($data->delete()){
+          
+            $name = $request->input('name');
+            $dateBirth  = $request->input('date_of_birth');
+            $placeBirth = $request->input('place_of_birth');
+            $gender     = $request->input('gender');
+            $email      = $request->input('email');
+            $hp         = $request->input('hp');
+ 
+ 
+            $data = \App\Author::where('id',$id)->first();
+            $data->name = $name;
+            $data->date_of_birth = $dateBirth;
+            $data->place_of_birth = $placeBirth;
+            $data->gender = $gender;
+            $data->email = $email;
+            $data->hp = $hp;
+     
+            if($data->save()){
                 return response()->json([
                     'status' => true,
                     'code' => 200,
-                    'message' => 'Berhasil Delete Buku',
+                    'message' => 'Berhasil Update Author',
+                    'data' => $data,
                 ], 200);
             }
         }catch (\Exception $e) {
@@ -172,6 +144,32 @@ class BookController extends Controller
                 'message' => $e->getMessage()
             ], 200);
         }
+    }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try{
+            $data = \App\Author::where('id',$id)->first();
+            if($data->delete()){
+                return response()->json([
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'Berhasil Delete Author',
+                ], 200);
+            }
+        }catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => $e->getMessage()
+            ], 200);
+        }
     }
 }

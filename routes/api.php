@@ -28,3 +28,13 @@ Route::post('/books/create', 'BookController@store');
 Route::post('/books/update/{id}', 'BookController@update');
 
 Route::delete('/books/delete/{id}', 'BookController@destroy');
+
+Route::get('/author', 'AuthorController@index');
+
+
+Route::post('/author/create', 'AuthorController@store');
+
+
+Route::post('/author/update/{id}', 'AuthorController@update');
+
+Route::delete('/author/delete/{id}', 'AuthorController@destroy');
